@@ -12,7 +12,11 @@ TBD :)
 2. TBD...
 
 ## Running/Testing
-1. TBD...
+
+1. Source the development folder: `source ./devel/setup.bash`.
+
+To build the `motor` project (from the root of the project):
+`catkin_make motor`
 
 ## Contributing
 To contribute code to this repository, you must:

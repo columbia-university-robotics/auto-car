@@ -1,2 +1,7 @@
 kinetic-ros_comm-wet.rosinstall
 .env
+__pycache__
+.idea
+build
+devel
+install

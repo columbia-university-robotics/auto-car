@@ -1,2 +1,3 @@
 slackclient
 python-dotenv
+adafruit-circuitpython-motorkit
