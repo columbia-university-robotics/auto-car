@@ -20,7 +20,7 @@ def notify_ip():
     Notifies the Slack channel of the car's IP address.
     """
     ip = socket.gethostbyname(socket.gethostname())
-    response = client.chat_postMessage(channel='#autonomy', text="Hi! SSH into me with `ssh pi@" + ip + "`.")
+    response = client.chat_postMessage(channel='#autonomy-bot', text="Hi! SSH into me with `ssh pi@" + ip + "`.")
     assert response["ok"]
 
 
