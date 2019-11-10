@@ -13,7 +13,7 @@ class Logger:
     A class to enable class-based logging, like in Java (see Logger4J).
     """
 
-    def __init__(self, cls):
+    def __init__(self, cls=None):
         self.cls = cls
 
     def info(self, *msgs):
@@ -50,7 +50,7 @@ class Logger:
         """
         :return: Logger's class name as a string.
         """
-        return self.cls.__class__.__name__
+        return self.cls.__class__.__name__ if self.cls is not None else "No-Class"
 
     @staticmethod
     def __timestamp():
