@@ -3,12 +3,15 @@
 # All Rights Reserved. Development by the Autonomous Car Team.
 # Contact: Anthony, anthony.k@columbia.edu
 
+import sys
 import slack
 import socket
 from os import environ
 from os.path import join, dirname
 from dotenv import load_dotenv
 from src.util.logger import Logger
+
+sys.path.append(join(dirname(__file__), '../..'))
 
 # Load Slack API Token
 load_dotenv(join(join(dirname(__file__), '../..'), '.env'))
