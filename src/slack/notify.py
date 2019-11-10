@@ -9,9 +9,10 @@ import socket
 from os import environ
 from os.path import join, dirname
 from dotenv import load_dotenv
-from src.util.logger import Logger
 
 sys.path.append(join(dirname(__file__), '../..'))
+from src.util.logger import Logger
+
 
 # Load Slack API Token
 load_dotenv(join(join(dirname(__file__), '../..'), '.env'))
