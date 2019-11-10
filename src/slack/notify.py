@@ -24,11 +24,16 @@ client = slack.WebClient(token=TOKEN)
 LOGGER = Logger()
 
 
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
+
 def notify_ip():
     """
     Notifies the Slack channel of the car's IP address.
     """
-    ip = socket.gethostbyname(socket.gethostname())
+    ip = get_ip_address()
     LOGGER.info("IP: " + ip)
     LOGGER.info("Token: " + TOKEN)
     response = client.chat_postMessage(channel='#autonomy-bot', text="Hi! SSH into me with `ssh pi@" + ip + "`.")
