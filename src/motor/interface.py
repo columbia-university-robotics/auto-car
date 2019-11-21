@@ -7,11 +7,11 @@ from enum import Enum
 import atexit
 import rospy
 import numpy as np
+import time
 from std_msgs.msg import Int16MultiArray
-from adafruit_motorkit import MotorKit
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
 from src.util.logger import Logger
-
 
 class Interface:
 
@@ -22,14 +22,13 @@ class Interface:
 
     def __init__(self, speed = 1):
         self.LOGGER = Logger(self)
-        self.kit = MotorKit()
+        self.controller = Adafruit_MotorHAT(addr=0x60, i2c_bus=1)
         self.motors = [0, 0, 0, 0]
         self.speed = speed
         self.publisher = rospy.Publisher('/motor/pub', Int16MultiArray, queue_size=1, latch=True)
         # Initialize motor subscribers
         rospy.init_node('interface')
-        for i in range(3):
-            rospy.Subscriber("/motor", Int16MultiArray, self.on_motor_callback)
+        rospy.Subscriber("/motor", Int16MultiArray, self.on_motor_callback)
         # Turn off motors when the script exits.
         atexit.register(self.turn_off_motors)
 
@@ -73,11 +72,11 @@ class Interface:
         """
         assert len(values) is 4
         self.motors = values
-        kit.motor1.throttle = self.motors[0]
-        kit.motor2.throttle = self.motors[1]
-        kit.motor3.throttle = self.motors[2]
-        kit.motor4.throttle = self.motors[3]
 
+        for idx, motor_speed in enumerate(values):
+            direction = Adafruit_MotorHAT.FORWARD if motor_speed > 0 else Adafruit_MotorHAT.BACKWARD if motor_speed < 0 else Adafruit_MotorHAT.BRAKE
+            mh.getMotor(idx + 1).run(direction)
+            myMotor.setSpeed(abs(motor_speed * 255))
 
 class Wheel(Enum):
     FRONT_LEFT = 0
