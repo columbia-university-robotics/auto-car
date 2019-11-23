@@ -6,22 +6,21 @@
 import os
 import sys
 from enum import Enum
+import sys
 import atexit
 import rospy
 import numpy as np
 import time
-import threading
 from os.path import join, dirname
 from std_msgs.msg import String
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(join(dirname(__file__), '../..'))
 from src.util.logger import Logger
-import Adafruit_GPIO.I2C as I2C
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
-class Interface:
 
+class Interface:
     """
     Abstract:
     Simple script to baseline motor execution.
@@ -36,23 +35,10 @@ class Interface:
         rospy.Subscriber("/motor", String, self.on_motor_callback, queue_size=1)
         # Turn off motors when the script exits.
         atexit.register(self.turn_off_motors)
-
-        # motor tracking
+        # Motor tracking
         r = rospy.Rate(2)
         while not rospy.is_shutdown():
             self.LOGGER.info(str(self.motors))
-            # if self.motors[0] is self.motors[2] and self.motors[1] is self.motors[3]:
-            #     self.send([0, 0, 0, 0])
-            # else:
-            #     am = np.argmax(self.motors)
-            #     self.LOGGER.info("AM " + am)
-            #     if am == 0:
-            #         self.send([self.speed, self.speed, self.speed, self.speed])
-            #     elif am == 1:
-            #         self.send([-self.speed, self.speed, -self.speed, self.speed])
-            #     else:
-            #         assert am == 2
-            #         self.send([self.speed, -self.speed, self.speed, -self.speed])
             r.sleep()
 
     def turn_off_motors(self):
