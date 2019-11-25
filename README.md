@@ -4,19 +4,31 @@ Mono-repository for CURC's autonomous car code.
 
 ## Project Structure
 ```
-TBD :)
+src
+  - auto
+    > control.py: ROS publisher to motor interface for simple controlling
+    > test.py: Unit tests for motor control publisher
+  - motor
+    > interface.py: ROS subcriber interface for motor commands
+  - slack
+    > notify.py: Sends car's IP address to Slack for convenience
+  - util
+    > logger.py: Verbose, class-based logger for debugging
 ```
 
-## How to Install Locally
-1. `git clone`
-2. TBD...
-
 ## Running/Testing
+Ensure you have ROS Melodic installed on your machine.
+1. `git clone`
+2. `catkin_make`
+3. `source devel/setup.bash`
+4. (in new Terminal window) `roscore`
+5. `rostopic pub /project_name filename.py`
 
-1. Source the development folder: `source ./devel/setup.bash`.
-
-To build the `motor` project (from the root of the project):
-`catkin_make motor`
+### ROS Motor Interface
+1. Run `roscore` in a different Terminal window.
+2. Ensure you've built the entire project using `catkin_make` above.
+3. Run `rostopic pub /motor std_msgs/String "MOTOR_1, MOTOR2, MOTOR_3, MOTOR_4" --once`, where
+`MOTOR_#` denotes the speed of the appropriate motor between -255 and 255.
 
 ## Contributing
 To contribute code to this repository, you must:
