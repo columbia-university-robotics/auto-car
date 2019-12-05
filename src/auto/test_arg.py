@@ -14,39 +14,16 @@ from src.auto.control import Control
 LOGGER = Logger()
 
 # Set up car controls
-base_speed = 128
+base_speed = 256
 car = Control(base_speed)
 
 """
 Abstract:
-Unit tests for movement functions in control.py.
+Command line test for movement.
 """
 
-LOGGER.info("Testing Brakes")
-car.go()
-time.sleep(2)
-car.stop()
-time.sleep(2)
-car.crab_l()
-time.sleep(4)
-car.stop()
-time.sleep(2)
-car.crab_r()
-time.sleep(4)
-car.stop()
-time.sleep(2)
-car.turn_l()
-time.sleep(2)
-car.stop()
-time.sleep(2)
-car.turn_r()
-time.sleep(2)
-car.stop()
-time.sleep(2)
-car.rot_l()
-time.sleep(2)
-car.stop()
-time.sleep(2)
-car.rot_r()
-time.sleep(2)
+motor_vals = [ float(m) for m in sys.argv[1:5] ]
+
+car.move(motor_vals)
+time.sleep(int(sys.argv[5]) if len(sys.argv) > 5 else 2)
 car.stop()
