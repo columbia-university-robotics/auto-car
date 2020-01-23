@@ -2,21 +2,13 @@
 
 Mono-repository for CURC's autonomous car code.
 
-## Project Structure
-```
-TBD :)
-```
-
-## How to Install Locally
-1. `git clone`
-2. TBD...
-
-## Running/Testing
-
-1. Source the development folder: `source ./devel/setup.bash`.
-
-To build the `motor` project (from the root of the project):
-`catkin_make motor`
+## Starting the Autonomous Car
+1. Plug the power cable into the Raspberry Pi.
+2. When the car boots up, it should send a message to the `autonomy-bot` channel in the [Slack Workspace](columbiaurobotics.slack.com) containing code to ssh into it (ex. "Hi! SSH into me with `ssh bot@160.39.233.170`.") Copy the code.
+3. Open up a new terminal window and paste the code from (2) to boot into the car. When prompted for a password, use `curc`.
+4. Run `/home/bot/Desktop/startup.sh` to start up the motor subscriber.
+5. In a new Terminal window, repeat steps 2-3 to open up a new instance of the ssh. You can close the tab from part (4) as long as you leave the motor subscriber running (it should repeatedly say something like 'Interface [00:50:17]: [0, 0, 0, 0]').
+6. To send a move command to the motors, run `rostopic pub /motor std_msgs/String "0, 0, 0, 0"`.
 
 ## Contributing
 To contribute code to this repository, you must:
