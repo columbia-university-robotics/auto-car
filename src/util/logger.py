@@ -6,6 +6,7 @@
 from enum import Enum
 from time import gmtime, strftime
 
+from termcolor import cprint
 
 class Logger:
     """
@@ -30,7 +31,7 @@ class Logger:
         :param msgs: List of messages.
         """
         for msg in msgs:
-            print(TerminalColor.WARNING + self.__prefix() + msg + TerminalColor.END)
+            cprint(self.__prefix() + msg, TerminalColor.WARNING.value)
 
     def error(self, *msgs):
         """
@@ -38,7 +39,7 @@ class Logger:
         :param msgs: List of messages.
         """
         for msg in msgs:
-            print(TerminalColor.FAIL + self.__prefix() + msg + TerminalColor.END)
+            cprint(self.__prefix() + msg, TerminalColor.FAIL.value)
 
     def __prefix(self):
         """
@@ -61,11 +62,7 @@ class Logger:
 
 
 class TerminalColor(Enum):
-    HEADER = '\033[95m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    END = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    BLUE = 'blue'
+    GREEN = 'green'
+    WARNING = 'yellow'
+    FAIL = 'red'

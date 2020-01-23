@@ -10,7 +10,7 @@ import rospy
 import time
 from std_msgs.msg import String
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 from src.util.logger import Logger
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
@@ -32,11 +32,11 @@ class Interface:
         # Motor 1
         0: 1,
         # Motor 2
-        1: 2,
+        1: 4,
         # Motor 3
         2: 3,
         # Motor 4
-        3: 4
+        3: 2
     }
 
     def __init__(self):
@@ -62,9 +62,9 @@ class Interface:
         Turns off all motors.
         """
         self.LOGGER.info("Stopping motors...")
-        self.turn_motors([0, 0, 0, 0], 1000000)
+        self.turn_motors([0, 0, 0, 0])
 
-    def turn_motors(self, values, accel=10000):
+    def turn_motors(self, values):
         """
         Turns motors to the given values with the provided acceleration.
         :param values Array of 4 motor values between -255 and 255 each, indicating the
@@ -73,25 +73,26 @@ class Interface:
         """
         if self.motors == values or len(values) is not 4:
             # Return if not all 4 motor values are provided
+	    self.LOGGER.warn("Incorrect motor values: " + str(values))
             return
 
         self.LOGGER.info("Motors turning: " + str(values))
 
         # Slowly increment the motors with the provided acceleration.
-        while self.motors[0] != values[0] and self.motors[1] != values[1] and self.motors[2] != values[2] and self.motors[3] != values[3]:
+        while self.motors[0] != values[0] or self.motors[1] != values[1] or self.motors[2] != values[2] or self.motors[3] != values[3]:
             for idx, motor_speed in enumerate(values):
                 self.motors[idx] += (1 if self.motors[idx] < values[idx] else -1 if self.motors[idx] > values[idx] else 0)
                 direction = Adafruit_MotorHAT.FORWARD if self.motors[idx] > 0 else Adafruit_MotorHAT.BACKWARD if self.motors[idx] < 0 else Adafruit_MotorHAT.BRAKE
                 self.controller.getMotor(self.MAPPING[idx]).run(direction)
                 self.controller.getMotor(self.MAPPING[idx]).setSpeed(int(abs(self.motors[idx])))
-                time.sleep(1/accel)
 
     def on_motor_callback(self, value_str_obj):
         """
         Takes in a ROS String and converts it to a list of motor values.
         Callback for ROS /motor subscription.
         """
-        values = list(map(lambda x: float(x), value_str_obj.data.replace("\\", "").replace(" ", "").split(",")))
+        values = list(map(lambda x: int(x), value_str_obj.data.replace("\\", "").replace(" ", "").split(",")))
+        self.LOGGER.info("Received motor values: " + str(values))
         self.turn_motors(values)
         self.motors = values
 

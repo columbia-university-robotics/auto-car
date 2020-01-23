@@ -36,7 +36,7 @@ def notify_ip():
     ip = get_ip_address()
     LOGGER.info("IP: " + ip)
     LOGGER.info("Token: " + TOKEN)
-    response = client.chat_postMessage(channel='#autonomy-bot', text="Hi! SSH into me with `ssh pi@" + ip + "`.")
+    response = client.chat_postMessage(channel='#autonomy-bot', text="Hi! SSH into me with `ssh bot@" + ip + "`.")
     assert response["ok"]
     LOGGER.info("Notified")
 
