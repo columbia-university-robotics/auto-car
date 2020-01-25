@@ -8,7 +8,7 @@ Mono-repository for CURC's autonomous car code.
 3. Open up a new terminal window and paste the code from (2) to boot into the car. When prompted for a password, use `curc`.
 4. Run `/home/bot/Desktop/startup.sh` to start up the motor subscriber.
 5. In a new Terminal window, repeat steps 2-3 to open up a new instance of the ssh. You can close the tab from part (4) as long as you leave the motor subscriber running (it should repeatedly say something like 'Interface [00:50:17]: [0, 0, 0, 0]').
-6. To send a move command to the motors, run `rostopic pub /motor std_msgs/String "0, 0, 0, 0"`. The 0's can be replaced by any number between 0 and 255.
+6. To send a move command to the motors, run `rostopic pub /motor std_msgs/String "0, 0, 0, 0 --once"`. The 0's can be replaced by any number between 0 and 255.
 
 ## Contributing
 To contribute code to this repository, you must:
